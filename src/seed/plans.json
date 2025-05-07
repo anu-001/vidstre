@@ -1,0 +1,25 @@
+[
+  {
+    "id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    "subscription": "Monthly Subscription",
+    "duration": "30 days",
+    "description": "Our most popular plan for users who love out content.",
+    "amount": 50,
+    "currency": "$",
+    "priceId": "price_1M25yhCoKVlMds8iUY4tmEd7",
+    "pk": "plans",
+    "sk": "Monthly#days"
+  },
+  {
+    "id": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+    "subscription": "Lifelong Subscription",
+    "duration": "unlimited",
+    "description": "Support our content and creators with a once off payment for access to content lifelong.",
+    "amount": 100,
+    "caps": 1000,
+    "currency": "$",
+    "priceId": "price_1M260jCoKVlMds8inFeQtxMd",
+    "pk": "plans",
+    "sk": "Lifelong#unlimited"
+  }
+]
