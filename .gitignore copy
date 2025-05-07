@@ -1,0 +1,21 @@
+# package directories
+node_modules
+jspm_packages
+.DS_Store
+# Serverless directories
+.serverless
+
+# esbuild directories
+.esbuild
+old/
+db.yml
+yarn.lock
+.dynamodb
+ci.yml
+.vscode
+.env
+yarn-error.log
+web.md
+bit.yml
+swagger
+src/functions/ndex.copy.ts

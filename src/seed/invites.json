@@ -1,0 +1,29 @@
+[
+    {
+        "email": "sample-dev@hotmail.com",
+        "firstName": "Sample",
+        "inviteeId": "a725fcee-6852-4d28-ae0b-e281289f4d1e",
+        "inviteKey": "2HSqB3KBTp",
+        "lastName": "dev",
+        "role": "consumer",
+        "status": "accepted"
+    },
+    {
+        "email": "sample-1@hotmail.com",
+        "firstName": "Sample",
+        "inviteeId": "a323fcee-6852-4d28-ae0b-e281990f4d1e",
+        "inviteKey": "5BSdB2KBTa",
+        "lastName": "dev-1",
+        "role": "consumer",
+        "status": "pending"
+    },
+    {
+        "email": "samples@hotmail.com",
+        "firstName": "Sample",
+        "inviteeId": "934217fe-e91e-4055-9f8d-9dd2dd771c09",
+        "inviteKey": "mwgFyQ5lLD",
+        "lastName": "Dever",
+        "role": "consumer",
+        "status": "accepted"
+    }
+]

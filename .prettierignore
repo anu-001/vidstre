@@ -1,0 +1,8 @@
+*.yml
+*.md
+node_modules
+.eslintrc.js
+.prettierrc.js
+jest.config.js
+*.test.ts
+swagger
