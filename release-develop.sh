@@ -1,31 +1,88 @@
 #!/bin/bash
 
-# Release script v1.0.0
+# Release script v1.1.0
+
+set -e # Exit immediately if a command exits with a non-zero status
+
+# Default configuration
+VERBOSE=true
+PUSH_CHANGES=true
+
+# Parse command line options
+while getopts "qn" opt; do
+  case $opt in
+    q) VERBOSE=false ;; # Quiet mode
+    n) PUSH_CHANGES=false ;; # No push mode (dry run)
+    *) echo "Usage: $0 [-q] [-n]" >&2
+       echo "  -q: Quiet mode"
+       echo "  -n: No push (dry run)"
+       exit 1 ;;
+  esac
+done
+
+# Function for logging
+log() {
+  if [ "$VERBOSE" = true ]; then
+    echo "$1"
+  fi
+}
+
+# Function to check if working directory is clean
+check_working_dir() {
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: Working directory is not clean. Please commit or stash your changes."
+    exit 1
+  fi
+}
 
 # Get the app name from package.json
-appName=`node -pe "require('./package.json').name"`
+if [ ! -f package.json ]; then
+  echo "Error: package.json not found. Make sure you're in the project root directory."
+  exit 1
+fi
 
-echo "Starting new release for $appName"
+appName=$(node -pe "require('./package.json').name")
+log "Starting new release for $appName"
+
+# Check that working directory is clean
+check_working_dir
 
 # Pull the latest changes from develop
-git checkout develop
-git pull
+log "Checking out develop branch..."
+git checkout develop || { echo "Failed to checkout develop branch"; exit 1; }
+
+log "Pulling latest changes..."
+git pull || { echo "Failed to pull latest changes"; exit 1; }
 
 # Get the new version
-version=`node -pe "require('./package.json').version"`
+version=$(node -pe "require('./package.json').version")
+log "Creating release for version $version"
 
 # Create release branch
-git checkout -b release/$version
+log "Creating release branch: release/$version"
+git checkout -b "release/$version" || { echo "Failed to create release branch"; exit 1; }
 
 # Switch to test branch 
-git checkout test
+log "Checking out test branch..."
+git checkout test || { echo "Failed to checkout test branch"; exit 1; }
 
 # Merge the release branch into test
-GIT_MERGE_AUTOEDIT=no git merge --no-ff release/$version
+log "Merging release/$version into test..."
+GIT_MERGE_AUTOEDIT=no git merge --no-ff "release/$version" || { 
+  echo "Merge conflict detected. Please resolve conflicts manually."
+  exit 1
+}
 
-git push
+# Push changes if not in dry run mode
+if [ "$PUSH_CHANGES" = true ]; then
+  log "Pushing changes to remote..."
+  git push || { echo "Failed to push changes"; exit 1; }
+else
+  log "(Dry run: skipping git push)"
+fi
 
 # Delete the release branch
-git branch -d release/$version
+log "Deleting release branch..."
+git branch -d "release/$version" || { echo "Failed to delete release branch"; exit 1; }
 
-echo "Release successful"
+log "Release successful"
